@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="quote-box">
+    <strong>Daily Study Motivation (Live API):</strong><br>
+    {{ quote }}
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 14px;">Add New Study Task</h3>
+    <form method="POST" action="{{ url_for('add_task') }}" class="task-grid">
+        <div>
+            <label for="title">Task Description</label>
+            <input type="text" id="title" name="title" required placeholder="e.g., Past Paper 2024 Q3">
+        </div>
+        <div>
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required placeholder="e.g., AS Maths / Economics">
+        </div>
+        <div>
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority" required>
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">Add Task</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 14px;">Your Study Checklist ({{ tasks|length }})</h3>
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="task-item {% if task.is_completed %}done{% endif %}">
+                <div>
+                    <span><strong>{{ task.subject }}:</strong> {{ task.title }}</span>
+                    <span class="badge badge-{{ task.priority }}">{{ task.priority }}</span>
+                </div>
+                <div class="actions">
+                    <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
+                        <button type="submit" class="btn btn-success">
+                            {% if task.is_completed %}Undo{% else %}Done{% endif %}
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="color: #94a3b8;">No tasks yet! Add your first revision goal above.</p>
+    {% endif %}
+</div>
+{% endblock %}

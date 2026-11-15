@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width: 450px; margin: 40px auto;">
+    <h2 style="margin-bottom: 16px;">Create Account</h2>
+    <form method="POST" action="{{ url_for('register') }}">
+        <div class="form-group">
+            <label for="username">Choose Username</label>
+            <input type="text" id="username" name="username" required placeholder="e.g., ali_cedar">
+        </div>
+        <div class="form-group">
+            <label for="password">Create Password</label>
+            <input type="password" id="password" name="password" required minlength="6" placeholder="Minimum 6 characters">
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Sign Up</button>
+    </form>
+    <p style="margin-top: 16px; text-align: center; color: #94a3b8;">
+        Already registered? <a href="{{ url_for('login') }}" style="color: #38bdf8;">Log In</a>
+    </p>
+</div>
+{% endblock %}
